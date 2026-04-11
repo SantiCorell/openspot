@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -11,6 +12,30 @@ const googleClientId =
   process.env.GOOGLE_CLIENT_ID ?? "build-time-placeholder.apps.googleusercontent.com";
 const googleClientSecret =
   process.env.GOOGLE_CLIENT_SECRET ?? "build-time-placeholder";
+
+const emailPassword = Credentials({
+  id: "credentials",
+  name: "Email y contraseña",
+  credentials: {
+    email: { label: "Email", type: "email" },
+    password: { label: "Contraseña", type: "password" },
+  },
+  async authorize(credentials) {
+    const email = (credentials?.email as string | undefined)?.trim().toLowerCase();
+    const password = credentials?.password as string | undefined;
+    if (!email?.includes("@") || !password) return null;
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user?.passwordHash) return null;
+    const valid = await bcrypt.compare(password, user.passwordHash);
+    if (!valid) return null;
+    return {
+      id: user.id,
+      email: user.email ?? undefined,
+      name: user.name ?? undefined,
+      image: user.image ?? undefined,
+    };
+  },
+});
 
 const devEmail =
   process.env.NODE_ENV === "development"
@@ -59,6 +84,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: googleClientSecret,
       allowDangerousEmailAccountLinking: true,
     }),
+    emailPassword,
     ...(devEmail ? [devEmail] : []),
   ],
   callbacks: {

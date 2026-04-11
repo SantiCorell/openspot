@@ -480,6 +480,13 @@ export function SiteHeaderNav({ user }: Props) {
                 >
                   Entrar
                 </Link>
+                <Link
+                  href="/register"
+                  className="mt-1 block rounded-xl px-3 py-2.5 text-[13px] font-medium text-[var(--muted)] hover:bg-[var(--muted-bg)]"
+                  onClick={() => setOpen(false)}
+                >
+                  Crear cuenta
+                </Link>
               )}
               <Link
                 href="/analyze"
@@ -495,12 +502,20 @@ export function SiteHeaderNav({ user }: Props) {
 
       <div className="hidden items-center gap-2 md:flex md:pl-1">
         {!isLoggedIn ? (
-          <Link
-            href="/login"
-            className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--card)] px-3.5 py-1.5 text-[12px] font-semibold text-[var(--foreground)] shadow-sm transition-[box-shadow,transform] hover:border-[var(--border-strong)] active:scale-[0.98]"
-          >
-            Entrar
-          </Link>
+          <>
+            <Link
+              href="/login"
+              className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--card)] px-3.5 py-1.5 text-[12px] font-semibold text-[var(--foreground)] shadow-sm transition-[box-shadow,transform] hover:border-[var(--border-strong)] active:scale-[0.98]"
+            >
+              Entrar
+            </Link>
+            <Link
+              href="/register"
+              className="inline-flex items-center rounded-full px-3 py-1.5 text-[12px] font-medium text-[var(--muted)] hover:text-[var(--foreground)]"
+            >
+              Registro
+            </Link>
+          </>
         ) : null}
         <Link
           href="/analyze"

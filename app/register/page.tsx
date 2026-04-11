@@ -4,29 +4,22 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 
-import { signInGoogleAction } from "@/app/actions/auth";
-import { DevEmailLoginForm } from "@/components/auth/DevEmailLoginForm";
-import { LoginPasswordForm } from "@/components/auth/LoginPasswordForm";
+import { RegisterForm } from "@/components/auth/RegisterForm";
 import { GoogleGIcon } from "@/components/brand/GoogleGIcon";
 import { OpenSpotLogo } from "@/components/brand/OpenSpotLogo";
+
+import { signInGoogleAction } from "@/app/actions/auth";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Iniciar sesión",
+  title: "Crear cuenta",
   robots: { index: false, follow: false },
 };
 
-type Props = {
-  searchParams?: Promise<{ registered?: string }>;
-};
-
-export default async function LoginPage({ searchParams }: Props) {
+export default async function RegisterPage() {
   const session = await auth();
   if (session?.user) redirect("/dashboard");
-
-  const sp = (await searchParams) ?? {};
-  const justRegistered = sp.registered === "1";
 
   return (
     <main className="relative flex min-h-[calc(100dvh-3.75rem)] flex-1 flex-col items-center justify-center px-4 py-8 sm:min-h-[calc(100dvh-4rem)] sm:py-16">
@@ -38,24 +31,18 @@ export default async function LoginPage({ searchParams }: Props) {
         <div className="flex flex-col items-center text-center">
           <OpenSpotLogo linkToHome={false} iconSize={44} className="mb-5 sm:mb-6" />
           <h1 className="text-[1.65rem] font-semibold tracking-tight sm:text-[1.75rem]">
-            Entrar a OpenSpot
+            Crear cuenta en OpenSpot
           </h1>
           <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-[var(--muted)]">
-            Accede para guardar análisis y desbloquear el plan Pro cuando esté activo.
+            Tres búsquedas gratis para probar el analizador. También puedes registrarte con Google.
           </p>
         </div>
-
-        {justRegistered ? (
-          <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 px-4 py-3 text-center text-[13px] text-emerald-800 dark:text-emerald-200">
-            Cuenta creada. Inicia sesión con tu email y contraseña.
-          </div>
-        ) : null}
 
         <div className="os-card p-5 shadow-lg shadow-indigo-500/[0.06] sm:p-8">
           <form action={signInGoogleAction} className="space-y-3">
             <button type="submit" className="os-google-btn min-h-[52px] text-[15px]">
               <GoogleGIcon className="shrink-0" />
-              Continuar con Google
+              Registrarse con Google
             </button>
           </form>
 
@@ -68,16 +55,19 @@ export default async function LoginPage({ searchParams }: Props) {
             </div>
           </div>
 
-          <LoginPasswordForm />
-          <DevEmailLoginForm />
+          <RegisterForm />
         </div>
 
         <p className="text-center text-[13px] text-[var(--muted)]">
           <Link
-            href="/"
+            href="/login"
             className="font-medium text-[var(--foreground)] underline-offset-4 hover:underline"
           >
-            Volver al inicio
+            Ya tengo cuenta
+          </Link>
+          {" · "}
+          <Link href="/" className="underline-offset-4 hover:underline">
+            Inicio
           </Link>
         </p>
       </div>
