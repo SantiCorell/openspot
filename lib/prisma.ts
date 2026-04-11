@@ -24,7 +24,25 @@ function assertDatabaseUrl(): string {
 
 /** Huella para invalidar el singleton en dev (URL + política SSL). */
 function devPoolKey(connectionString: string): string {
-  return `${connectionString}\0ssl_reject=${process.env.DATABASE_SSL_REJECT_UNAUTHORIZED ?? "default"}`;
+  return `${connectionString}\0ssl=${sslRelaxFingerprint(connectionString)}`;
+}
+
+function sslRelaxFingerprint(connectionString: string): string {
+  if (process.env.DATABASE_SSL_STRICT === "true") return "strict";
+  if (process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "false") return "reject_off";
+  if (process.env.VERCEL === "1" && isLikelySupabaseHost(connectionString)) return "vercel_supabase";
+  return "default";
+}
+
+/** Supabase en serverless (p. ej. Vercel) a veces dispara cadena TLS que Node rechaza; el tráfico sigue cifrado. */
+function isLikelySupabaseHost(connectionString: string): boolean {
+  try {
+    const u = new URL(connectionString.replace(/^postgresql:/i, "http:"));
+    const h = u.hostname.toLowerCase();
+    return h.endsWith(".supabase.co") || h.endsWith(".pooler.supabase.com");
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -45,7 +63,9 @@ function stripSslModeQueryParam(url: string): string {
 
 function createPrismaClient(connectionString: string): PrismaClient {
   const relaxSslVerify =
-    process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "false";
+    process.env.DATABASE_SSL_STRICT !== "true" &&
+    (process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "false" ||
+      (process.env.VERCEL === "1" && isLikelySupabaseHost(connectionString)));
 
   const connectionStringForPool = relaxSslVerify
     ? stripSslModeQueryParam(connectionString)
