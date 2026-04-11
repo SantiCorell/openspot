@@ -1,0 +1,11 @@
+{
+  "name": "OpenSpot",
+  "short_name": "OpenSpot",
+  "description": "Estudios de ubicación y viabilidad para negocios en España.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "lang": "es"
+}
