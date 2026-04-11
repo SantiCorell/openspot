@@ -1,20 +1,17 @@
 import type { MetadataRoute } from "next";
 
-function siteUrl(): string {
-  const u =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  return u.replace(/\/$/, "");
-}
+import { siteBaseUrl } from "@/lib/seo/siteBaseUrl";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = siteUrl();
+  const base = siteBaseUrl();
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/admin", "/dashboard"],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/admin", "/admin/", "/dashboard", "/dashboard/"],
+      },
+    ],
     sitemap: `${base}/sitemap.xml`,
   };
 }

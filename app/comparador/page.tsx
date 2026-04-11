@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Comparador de zonas | OpenSpot",
   description:
     "Compara hasta 6 municipios españoles por sector: población INE, competidores modelados y lectura ejecutiva. Enlaza al análisis completo.",
+  robots: { index: false, follow: false },
 };
 
 export default async function ComparadorPage() {

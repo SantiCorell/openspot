@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Entender resultados del análisis | Producto OpenSpot",
   description:
     "Significado de rentabilidad, competencia, saturación, inversión orientativa, tabla de zonas, resumen IA y listados referencia. Guía completa para leer el informe OpenSpot.",
+  alternates: { canonical: "/producto/resultados" },
 };
 
 export default function ProductoResultadosPage() {

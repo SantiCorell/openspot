@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Informes de ubicación | Producto OpenSpot",
   description:
     "Qué incluye el informe OpenSpot: resumen con IA, señales de datos, mapa de zonas, tabla económica y referencias de locales. Uso en due diligence y expansión.",
+  alternates: { canonical: "/producto/informes" },
 };
 
 export default function ProductoInformesPage() {

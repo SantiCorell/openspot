@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Producto | OpenSpot",
   description:
     "Qué es OpenSpot: análisis de ubicación con datos municipales, zonas, informe con IA y métricas de rentabilidad y competencia para abrir negocio en España.",
+  alternates: { canonical: "/producto" },
 };
 
 const sections = [

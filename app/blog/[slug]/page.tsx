@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ArticleBody } from "@/components/blog/ArticleBody";
 import { BlogCoverImage } from "@/components/blog/BlogCoverImage";
+import { BlogPostingJsonLd } from "@/components/seo/BlogPostingJsonLd";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/content/blog";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | Blog OpenSpot`,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -40,6 +42,7 @@ export default async function BlogArticlePage({ params }: Props) {
 
   return (
     <main className="mx-auto max-w-3xl flex-1 px-4 py-12 sm:px-6 sm:py-16">
+      <BlogPostingJsonLd post={post} />
       <nav className="text-[13px] text-[var(--muted)]">
         <Link href="/blog" className="font-medium text-[var(--accent)] hover:underline">
           ← Blog

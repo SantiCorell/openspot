@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -5,6 +6,10 @@ import { auth } from "@/auth";
 import { isAdminEmail } from "@/lib/admin/isAdmin";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const subNavLink =
   "inline-flex items-center rounded-full border border-transparent px-4 py-2 text-[13px] font-medium text-[var(--muted)] transition-colors hover:border-[var(--border)] hover:bg-[var(--card)] hover:text-[var(--foreground)]";

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Comparador municipal (Enterprise) | OpenSpot",
   description:
     "Solo Enterprise: compara municipios con padrón INE, datos propios OpenSpot y estructura por edades.",
+  alternates: { canonical: "/producto/comparador" },
 };
 
 type Row = { n: string; c: string; p: number; y: number };

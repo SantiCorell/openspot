@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -9,6 +10,11 @@ import { MailIcon } from "@/components/brand/MailIcon";
 import { OpenSpotLogo } from "@/components/brand/OpenSpotLogo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Iniciar sesión",
+  robots: { index: false, follow: false },
+};
 
 export default async function LoginPage() {
   const session = await auth();

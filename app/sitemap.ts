@@ -1,49 +1,44 @@
 import type { MetadataRoute } from "next";
 
-import { getAllBlogSlugs } from "@/lib/content/blog";
+import { BLOG_POSTS } from "@/lib/content/blog";
+import { siteBaseUrl } from "@/lib/seo/siteBaseUrl";
 
-function siteUrl(): string {
-  const u =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  return u.replace(/\/$/, "");
-}
+type StaticEntry = { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"]; priority: number };
+
+/** Solo URLs públicas indexables (sin login ni herramientas que redirigen a auth). */
+const STATIC_ROUTES: StaticEntry[] = [
+  { path: "", changeFrequency: "weekly", priority: 1 },
+  { path: "/pricing", changeFrequency: "weekly", priority: 0.95 },
+  { path: "/producto", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/blog", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/contacto", changeFrequency: "monthly", priority: 0.85 },
+  { path: "/legal/cookies", changeFrequency: "yearly", priority: 0.35 },
+  { path: "/producto/informes", changeFrequency: "monthly", priority: 0.82 },
+  { path: "/producto/datos", changeFrequency: "monthly", priority: 0.82 },
+  { path: "/producto/resultados", changeFrequency: "monthly", priority: 0.82 },
+  { path: "/producto/mapas", changeFrequency: "monthly", priority: 0.82 },
+  { path: "/producto/motor", changeFrequency: "monthly", priority: 0.82 },
+  { path: "/producto/comparador", changeFrequency: "monthly", priority: 0.82 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = siteUrl();
-  const last = new Date();
+  const base = siteBaseUrl();
+  const now = new Date();
 
-  const staticPaths = [
-    "",
-    "/pricing",
-    "/producto",
-    "/blog",
-    "/contacto",
-    "/legal/cookies",
-    "/login",
-    "/analyze",
-    "/comparador",
-    "/producto/informes",
-    "/producto/datos",
-    "/producto/resultados",
-    "/producto/mapas",
-    "/producto/motor",
-    "/producto/comparador",
-  ];
-
-  const entries: MetadataRoute.Sitemap = staticPaths.map((path) => ({
+  const entries: MetadataRoute.Sitemap = STATIC_ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: `${base}${path}`,
-    lastModified: last,
-    changeFrequency: path === "" || path === "/blog" ? "weekly" : "monthly",
-    priority: path === "" ? 1 : path === "/pricing" || path === "/analyze" ? 0.9 : 0.7,
+    lastModified: now,
+    changeFrequency,
+    priority,
   }));
 
-  for (const slug of getAllBlogSlugs()) {
+  for (const post of BLOG_POSTS) {
+    const last = new Date(post.publishedAt);
     entries.push({
-      url: `${base}/blog/${slug}`,
-      lastModified: last,
+      url: `${base}/blog/${post.slug}`,
+      lastModified: Number.isNaN(last.getTime()) ? now : last,
       changeFrequency: "monthly",
-      priority: 0.75,
+      priority: 0.78,
     });
   }
 

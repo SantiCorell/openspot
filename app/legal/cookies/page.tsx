@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description:
     "Política de cookies de OpenSpot: cookies técnicas, preferencias y enlaces útiles.",
   robots: { index: true, follow: true },
+  alternates: { canonical: "/legal/cookies" },
 };
 
 export default function CookiesPolicyPage() {

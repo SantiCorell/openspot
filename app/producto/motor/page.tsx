@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Motor de puntuación | Producto OpenSpot",
   description:
     "Cómo OpenSpot calcula rentabilidad, competencia, saturación, inversión orientativa y puntuación de recomendación por zona. Transparencia sin jerga innecesaria.",
+  alternates: { canonical: "/producto/motor" },
 };
 
 export default function ProductoMotorPage() {

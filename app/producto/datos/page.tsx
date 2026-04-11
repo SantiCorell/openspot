@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Datos y fuentes | Producto OpenSpot",
   description:
     "Padrón INE, agregados OpenSpot, competencia modelada y referencias inmobiliarias: qué es dato oficial, qué es estimación y cómo validar en campo.",
+  alternates: { canonical: "/producto/datos" },
 };
 
 export default function ProductoDatosPage() {

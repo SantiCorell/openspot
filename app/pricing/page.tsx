@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Precios | OpenSpot",
   description:
     "Free, Pro y Enterprise. Búsquedas de análisis, comparador multi-zona y pagos seguros con Stripe.",
+  alternates: { canonical: "/pricing" },
 };
 
 export const dynamic = "force-dynamic";

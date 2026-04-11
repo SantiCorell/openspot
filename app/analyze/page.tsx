@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Analizar ubicación | OpenSpot",
   description:
     "Análisis de ubicación con INE, mapas de afluencia y scoring para todo el territorio español.",
+  robots: { index: false, follow: false },
 };
 
 export default async function AnalyzePage({

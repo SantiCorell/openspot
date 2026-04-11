@@ -5,6 +5,8 @@ import { AppProviders } from "@/app/providers";
 import { OpenSpotSupportChat } from "@/components/chat/OpenSpotSupportChat";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteJsonLd } from "@/components/seo/SiteJsonLd";
+import { siteBaseUrlAsUrl } from "@/lib/seo/siteBaseUrl";
 
 import "./globals.css";
 
@@ -42,7 +44,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: siteUrl(),
+  metadataBase: siteBaseUrlAsUrl(),
   title: {
     default: "OpenSpot — dónde abrir tu negocio",
     template: "%s | OpenSpot",
@@ -81,6 +83,17 @@ export const metadata: Metadata = {
     description:
       "Datos municipales, mapas de afluencia y scoring para abrir negocio en España.",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -91,6 +104,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${geistSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-[var(--background)] text-[var(--foreground)]">
+        <SiteJsonLd />
         <AppProviders>
           <SiteHeader />
           {children}

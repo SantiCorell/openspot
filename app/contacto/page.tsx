@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Contacto",
   description:
     "Contacta con OpenSpot: planes, facturación, prensa e integraciones. Equipo en España.",
+  alternates: { canonical: "/contacto" },
   openGraph: {
     title: "Contacto | OpenSpot",
     description: "Habla con el equipo OpenSpot sobre ubicación comercial y datos.",

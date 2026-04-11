@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ArrowRightIcon } from "@/components/brand/ArrowRightIcon";
@@ -14,6 +15,11 @@ import {
 } from "@/lib/marketing/cvMunicipioShowdown";
 
 import padron from "@/lib/data/ine-municipios-padron.json";
+import { withCanonical } from "@/lib/seo/canonical";
+
+export const metadata: Metadata = {
+  ...withCanonical("/"),
+};
 
 type Row = { n: string; c: string; p: number; y: number };
 

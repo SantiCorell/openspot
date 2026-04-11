@@ -10,15 +10,23 @@ import {
   getBlogPostsPage,
 } from "@/lib/content/blog";
 
-export const metadata: Metadata = {
-  title: "Blog | OpenSpot",
-  description:
-    "Guías largas para abrir negocio en España: hostelería, retail, datos INE, alquileres y franquicias. Información accionable enlazada al analizador.",
-};
-
 type Props = {
   searchParams?: Promise<{ page?: string }>;
 };
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const sp = (await searchParams) ?? {};
+  const raw = sp.page ?? "1";
+  const parsed = parseInt(raw, 10);
+  const page = Number.isFinite(parsed) && parsed >= 1 ? parsed : 1;
+  const canonical = page <= 1 ? "/blog" : `/blog?page=${page}`;
+  return {
+    title: "Blog | OpenSpot",
+    description:
+      "Guías largas para abrir negocio en España: hostelería, retail, datos INE, alquileres y franquicias. Información accionable enlazada al analizador.",
+    alternates: { canonical },
+  };
+}
 
 export default async function BlogPage({ searchParams }: Props) {
   const sp = (await searchParams) ?? {};

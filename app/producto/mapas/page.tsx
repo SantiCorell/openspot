@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Mapas y zonas | Producto OpenSpot",
   description:
     "Cómo leer el mapa de zonas candidatas en OpenSpot: priorización, pins, relación con la tabla y planificación de visitas comerciales.",
+  alternates: { canonical: "/producto/mapas" },
 };
 
 export default function ProductoMapasPage() {
