@@ -131,13 +131,6 @@ function LeafletValenciaMap({ reason }: { reason?: string }) {
           ))}
         </MapContainer>
       </div>
-      {!reason ? (
-        <p className="mt-2 text-[11px] text-[var(--muted)]">
-          Mapa OpenStreetMap (calles reales). Añade{" "}
-          <code className="rounded bg-[var(--muted-bg)] px-1 text-[10px]">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code>{" "}
-          para vista Google Maps.
-        </p>
-      ) : null}
     </div>
   );
 }
