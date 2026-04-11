@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { PLAN_COPY } from "@/lib/billing/plans";
+import type { PlanTier } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -61,6 +62,24 @@ export default async function DashboardBillingPage({ searchParams }: Props) {
   const hasStripe = Boolean(stripe);
   const hasCustomer = Boolean(sub?.stripeCustomerId);
   const checkoutOk = sp.checkout === "ok";
+
+  const userRow = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { planTier: true },
+  });
+  const tier = (userRow?.planTier ?? "free") as PlanTier;
+  const extraSearchEur =
+    tier === "free"
+      ? PLAN_COPY.free.extraSearchEur
+      : tier === "pro"
+        ? PLAN_COPY.pro.extraSearchEur
+        : PLAN_COPY.enterprise.extraSearchEur;
+  const extraCompEur =
+    tier === "free"
+      ? PLAN_COPY.free.extraComparisonEur
+      : tier === "pro"
+        ? PLAN_COPY.pro.extraComparisonEur
+        : PLAN_COPY.enterprise.extraComparisonEur;
 
   return (
     <main className="mx-auto max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-12">
@@ -141,19 +160,20 @@ export default async function DashboardBillingPage({ searchParams }: Props) {
         <section className="mt-10 space-y-4">
           <h3 className="text-lg font-semibold tracking-tight">Créditos sueltos</h3>
           <p className="text-[13px] text-[var(--muted)]">
-            Precios según tu plan actual: búsqueda extra desde{" "}
-            {PLAN_COPY.free.extraSearchEur} € (Free) y comparación extra desde{" "}
-            {PLAN_COPY.free.extraComparisonEur} €.
+            Con tu plan actual, cada estudio extra cuesta{" "}
+            <strong>{extraSearchEur} €</strong> y cada comparación extra{" "}
+            <strong>{extraCompEur} €</strong> (aparecen en el catálogo de Stripe como productos de pago
+            único).
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <ExtraCreditsCheckout
               kind="extra_search"
-              label="Búsquedas de informe extra"
+              label="Estudio extra (informe completo)"
               unitLabel="Cada unidad suma un análisis completo al cupo de tu plan."
             />
             <ExtraCreditsCheckout
               kind="extra_comparison"
-              label="Comparaciones multi-zona extra"
+              label="Comparación multi-zona extra"
               unitLabel="Cada unidad suma una ejecución del comparador."
             />
           </div>

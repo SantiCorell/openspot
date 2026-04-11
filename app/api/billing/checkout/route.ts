@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { extraComparisonUnitAmountCents, extraSearchUnitAmountCents } from "@/lib/billing/extraCreditCents";
 import {
   stripePriceEnterpriseMonthly,
+  stripePriceExtraComparisonForTier,
+  stripePriceExtraSearchForTier,
   stripePriceProMonthly,
 } from "@/lib/billing/stripeEnv";
 import { prisma } from "@/lib/prisma";
@@ -134,7 +136,23 @@ export async function POST(req: Request) {
     const qty = "quantity" in input && input.quantity != null ? input.quantity : 1;
 
     if (input.kind === "extra_search") {
+      const catalogPriceId = stripePriceExtraSearchForTier(user.planTier);
       const unit = extraSearchUnitAmountCents(user.planTier);
+      const lineItems = catalogPriceId
+        ? [{ price: catalogPriceId, quantity: qty }]
+        : [
+            {
+              price_data: {
+                currency: "eur",
+                product_data: {
+                  name: "OpenSpot — estudio extra (informe completo)",
+                  description: `${qty} crédito(s) de informe según tu plan.`,
+                },
+                unit_amount: unit,
+              },
+              quantity: qty,
+            },
+          ];
       const checkout = await stripe.checkout.sessions.create({
         mode: "payment",
         customer: existingCustomerId,
@@ -145,19 +163,7 @@ export async function POST(req: Request) {
           kind: "extra_search",
           qty: String(qty),
         },
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: {
-                name: "OpenSpot — búsqueda de análisis extra",
-                description: `${qty} crédito(s) de informe completo según tu plan.`,
-              },
-              unit_amount: unit,
-            },
-            quantity: qty,
-          },
-        ],
+        line_items: lineItems,
         success_url: successUrl,
         cancel_url: `${base}/dashboard/facturacion`,
         billing_address_collection: "auto",
@@ -165,7 +171,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true, url: checkout.url });
     }
 
+    const catalogCompId = stripePriceExtraComparisonForTier(user.planTier);
     const unitComp = extraComparisonUnitAmountCents(user.planTier);
+    const compLineItems = catalogCompId
+      ? [{ price: catalogCompId, quantity: qty }]
+      : [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: "OpenSpot — comparación multi-zona extra",
+                description: `${qty} comparación(es) extra según tu plan.`,
+              },
+              unit_amount: unitComp,
+            },
+            quantity: qty,
+          },
+        ];
     const checkout = await stripe.checkout.sessions.create({
       mode: "payment",
       customer: existingCustomerId,
@@ -176,19 +198,7 @@ export async function POST(req: Request) {
         kind: "extra_comparison",
         qty: String(qty),
       },
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: "OpenSpot — comparación multi-zona extra",
-              description: `${qty} comparación(es) extra según tu plan.`,
-            },
-            unit_amount: unitComp,
-          },
-          quantity: qty,
-        },
-      ],
+      line_items: compLineItems,
       success_url: successUrl,
       cancel_url: `${base}/dashboard/facturacion`,
       billing_address_collection: "auto",
