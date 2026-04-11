@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { includedMonthlyForTier } from "@/lib/billing/plans";
+import { getQuotaSnapshotForUser } from "@/lib/billing/searchQuota";
 import { prisma } from "@/lib/prisma";
 
 import { AnalyzeExperience } from "@/components/analyze/AnalyzeExperience";
@@ -43,20 +43,26 @@ export default async function AnalyzePage({
     });
   }
 
-  const monthlyIncluded = includedMonthlyForTier(user.planTier);
   const wallet = user.creditWallet;
   if (!wallet) {
+    redirect("/login");
+  }
+
+  const snap = await getQuotaSnapshotForUser(session.user.id);
+  if (!snap) {
     redirect("/login");
   }
 
   return (
     <AnalyzeExperience
       initialQuota={{
-        balance: wallet.balance,
-        planTier: user.planTier,
-        monthlyUsed: user.monthlySearchCount,
-        monthlyIncluded,
-        extraCredits: user.extraSearchCredits,
+        headline: snap.headline,
+        adminUnlimited: snap.adminUnlimited,
+        balance: snap.balance,
+        planTier: snap.planTier,
+        monthlyUsed: snap.monthlyUsed,
+        monthlyIncluded: snap.monthlyIncluded,
+        extraCredits: snap.extraCredits,
       }}
       initialCity={sp.city}
       initialBusinessType={sp.business}

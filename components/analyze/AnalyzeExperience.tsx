@@ -25,9 +25,13 @@ type QuotaProps = {
   monthlyUsed: number;
   monthlyIncluded: number;
   extraCredits: number;
+  /** Texto de cabecera desde el servidor (incluye mensaje admin ilimitado). */
+  headline?: string;
+  adminUnlimited?: boolean;
 };
 
 function quotaLabel(q: QuotaProps): string {
+  if (q.headline) return q.headline;
   if (q.planTier === "free") {
     return `${q.balance} búsqueda${q.balance === 1 ? "" : "s"} gratuita${q.balance === 1 ? "" : "s"} restantes`;
   }

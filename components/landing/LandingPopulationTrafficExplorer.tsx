@@ -133,7 +133,7 @@ export function LandingPopulationTrafficExplorer({ municipalities }: Props) {
 
       <div className="mt-5 border-t border-[var(--border)] pt-5">
         {tab === "population" ? (
-          <div className="h-64 w-full sm:h-72">
+          <div className="h-64 min-h-64 w-full min-w-0 sm:h-72 sm:min-h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 layout="vertical"

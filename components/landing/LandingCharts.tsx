@@ -44,7 +44,7 @@ export function LandingPopulationChart({ data }: { data: { name: string; populat
       <p className="mt-1 text-[13px] text-[var(--muted)]">
         Padrón oficial cruzado con la base analítica que normaliza oportunidad en cada estudio.
       </p>
-      <div className="mt-4 h-64 w-full">
+      <div className="mt-4 h-64 min-h-64 w-full min-w-0">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-[var(--border)]" />
@@ -130,7 +130,7 @@ export function LandingMunicipioShowdown({
           <p className="text-[12px] font-semibold text-[var(--foreground)]">
             Habitantes (fuente INE, capa OpenSpot)
           </p>
-          <div className="mt-2 h-[200px] w-full sm:h-[220px]">
+          <div className="mt-2 h-[200px] min-h-[200px] w-full min-w-0 sm:h-[220px] sm:min-h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 layout="vertical"
@@ -166,7 +166,7 @@ export function LandingMunicipioShowdown({
             <p className="text-[12px] font-semibold text-[var(--foreground)]">
               Densidad (hab/km², superficie de referencia)
             </p>
-            <div className="mt-2 h-[200px] w-full sm:h-[220px]">
+            <div className="mt-2 h-[200px] min-h-[200px] w-full min-w-0 sm:h-[220px] sm:min-h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   layout="vertical"
@@ -312,7 +312,7 @@ export function LandingAgeChart({ data }: { data: AgeRow[] }) {
         Misma fuente INE, tres historias distintas: capital regional, gran ciudad costera
         y enclave turístico. La edad condiciona ticket, horarios y estacionalidad.
       </p>
-      <div className="mt-4 h-72 w-full">
+      <div className="mt-4 h-72 min-h-72 w-full min-w-0">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-[var(--border)]" />

@@ -1,5 +1,6 @@
 import type { PlanTier } from "@prisma/client";
 
+import { isAdminEmail } from "@/lib/admin/isAdmin";
 import { prisma } from "@/lib/prisma";
 
 import { includedMonthlyForTier } from "@/lib/billing/plans";
@@ -29,6 +30,10 @@ export async function assertCanRunSearch(userId: string): Promise<QuotaResult> {
   });
   if (!user || !user.creditWallet) {
     return { ok: false, code: "UNAUTHORIZED", message: "Usuario no encontrado." };
+  }
+
+  if (isAdminEmail(user.email)) {
+    return { ok: true };
   }
 
   const now = new Date();
@@ -80,12 +85,25 @@ export async function getQuotaSnapshotForUser(userId: string): Promise<{
   monthlyUsed: number;
   monthlyIncluded: number;
   extraCredits: number;
+  adminUnlimited?: boolean;
 } | null> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: { creditWallet: true },
   });
   if (!user?.creditWallet) return null;
+
+  if (isAdminEmail(user.email)) {
+    return {
+      headline: "Administrador: análisis ilimitados",
+      planTier: user.planTier as PlanTier,
+      balance: user.creditWallet.balance,
+      monthlyUsed: user.monthlySearchCount,
+      monthlyIncluded: includedMonthlyForTier(user.planTier as PlanTier),
+      extraCredits: user.extraSearchCredits,
+      adminUnlimited: true,
+    };
+  }
 
   const now = new Date();
   let anchor = user.billingMonthAnchor;
@@ -133,6 +151,10 @@ export async function consumeSearchCredit(userId: string): Promise<void> {
     include: { creditWallet: true },
   });
   if (!user || !user.creditWallet) return;
+
+  if (isAdminEmail(user.email)) {
+    return;
+  }
 
   const now = new Date();
   let anchor = user.billingMonthAnchor;

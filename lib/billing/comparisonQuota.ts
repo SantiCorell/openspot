@@ -1,5 +1,6 @@
 import type { PlanTier } from "@prisma/client";
 
+import { isAdminEmail } from "@/lib/admin/isAdmin";
 import { prisma } from "@/lib/prisma";
 
 import {
@@ -34,6 +35,10 @@ export async function assertCanRunComparison(
   });
   if (!user || !user.creditWallet) {
     return { ok: false, code: "UNAUTHORIZED", message: "Usuario no encontrado." };
+  }
+
+  if (isAdminEmail(user.email)) {
+    return { ok: true };
   }
 
   const now = new Date();
@@ -89,12 +94,26 @@ export async function getComparisonQuotaSnapshotForUser(userId: string): Promise
   monthlyUsed: number;
   monthlyIncluded: number;
   extraComparisonCredits: number;
+  adminUnlimited?: boolean;
 } | null> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: { creditWallet: true },
   });
   if (!user?.creditWallet) return null;
+
+  if (isAdminEmail(user.email)) {
+    return {
+      headline: "Administrador: comparaciones ilimitadas",
+      planTier: user.planTier as PlanTier,
+      freeUsed: user.freeComparisonUsed,
+      freeCap: PLAN_COPY.free.includedComparisonsLifetime,
+      monthlyUsed: user.monthlyComparisonCount,
+      monthlyIncluded: includedComparisonsMonthlyForTier(user.planTier as PlanTier),
+      extraComparisonCredits: user.extraComparisonCredits,
+      adminUnlimited: true,
+    };
+  }
 
   const now = new Date();
   const tier = user.planTier as PlanTier;
@@ -147,6 +166,10 @@ export async function consumeComparisonCredit(userId: string): Promise<void> {
     include: { creditWallet: true },
   });
   if (!user || !user.creditWallet) return;
+
+  if (isAdminEmail(user.email)) {
+    return;
+  }
 
   const now = new Date();
   const tier = user.planTier as PlanTier;

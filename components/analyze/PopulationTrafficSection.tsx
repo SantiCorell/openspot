@@ -98,7 +98,7 @@ export function PopulationTrafficSection({
                 </p>
               </div>
             </div>
-            <div className="h-52 w-full sm:h-56">
+            <div className="h-52 min-h-52 w-full min-w-0 sm:h-56 sm:min-h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={popData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-[var(--border)]" />

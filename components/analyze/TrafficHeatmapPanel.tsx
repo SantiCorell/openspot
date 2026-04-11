@@ -160,7 +160,7 @@ export function TrafficHeatmapPanel({ heatmap, sectorLabel }: Props) {
             </option>
           ))}
         </select>
-        <div className="mt-4 h-56 w-full sm:h-64">
+        <div className="mt-4 h-56 min-h-56 w-full min-w-0 sm:h-64 sm:min-h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dayProfileData} margin={{ top: 6, right: 8, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-[var(--border)]" />
