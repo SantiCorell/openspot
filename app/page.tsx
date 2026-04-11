@@ -3,10 +3,8 @@ import Link from "next/link";
 
 import { ArrowRightIcon } from "@/components/brand/ArrowRightIcon";
 import { OpenSpotMark } from "@/components/brand/OpenSpotMark";
-import { LandingMunicipioShowdown } from "@/components/landing/LandingCharts";
+import { HomeDemoSectionLoader } from "@/components/landing/HomeDemoSectionLoader";
 import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
-import { LandingPopulationTrafficExplorer } from "@/components/landing/LandingPopulationTrafficExplorer";
-import { ValenciaHeatmap } from "@/components/landing/ValenciaHeatmap";
 import {
   SHOWDOWN_ANGLE,
   SHOWDOWN_AREA_KM2,
@@ -62,7 +60,7 @@ export default function HomePage() {
           <div className="space-y-6 text-center sm:text-left">
             <div className="inline-flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--card)]/80 py-1.5 pl-2 pr-4 shadow-sm backdrop-blur-sm">
               <OpenSpotMark size={36} />
-              <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[var(--foreground)]/80">
                 Dónde abrir, con datos
               </span>
             </div>
@@ -154,9 +152,7 @@ export default function HomePage() {
           className="flex flex-col gap-8 [content-visibility:auto] [contain-intrinsic-size:auto_900px]"
           aria-label="Demostración de mapa y datos"
         >
-          <ValenciaHeatmap />
-          <LandingPopulationTrafficExplorer municipalities={showdown} />
-          <LandingMunicipioShowdown data={showdown} landingSimple />
+          <HomeDemoSectionLoader showdown={showdown} />
         </section>
 
         {/* Cierre conversión */}

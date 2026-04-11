@@ -208,11 +208,13 @@ export function ZoneComparatorExperience({ initialQuota }: { initialQuota: Quota
                     <span className="font-medium">{p.n}</span>
                     <button
                       type="button"
-                      className="rounded-full p-1 text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)]"
+                      className="flex h-11 min-w-11 items-center justify-center rounded-full text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)] touch-manipulation"
                       aria-label={`Quitar ${p.n}`}
                       onClick={() => removeMunicipio(p.c)}
                     >
-                      ×
+                      <span className="text-lg leading-none" aria-hidden>
+                        ×
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -223,12 +225,13 @@ export function ZoneComparatorExperience({ initialQuota }: { initialQuota: Quota
               </p>
             )}
 
-            <label className="block">
+            <label htmlFor="comparator-business-type" className="block">
               <span className="text-[13px] font-medium text-[var(--foreground)]">
                 Tipo de negocio
               </span>
               <select
-                className="os-select mt-2 w-full"
+                id="comparator-business-type"
+                className="os-select mt-2 w-full min-h-11"
                 value={businessType}
                 onChange={(e) => {
                   const v = e.target.value;

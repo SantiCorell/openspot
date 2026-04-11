@@ -3,7 +3,8 @@
 :root {
   --background: #fafafa;
   --foreground: #09090b;
-  --muted: #71717a;
+  /* Contraste AA en textos pequeños sobre fondo claro (Lighthouse accesibilidad). */
+  --muted: #52525b;
   --muted-bg: #f4f4f5;
   --border: #e4e4e7;
   --border-strong: #d4d4d8;
@@ -125,7 +126,7 @@ body {
   }
   .os-select {
     @apply w-full cursor-pointer appearance-none rounded-xl border border-[var(--border)] bg-[var(--background)] bg-[length:1rem] bg-[right_0.65rem_center] bg-no-repeat px-3.5 py-2.5 pr-10 text-sm text-[var(--foreground)] shadow-sm outline-none transition-[border-color,box-shadow];
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2352525b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
   .os-select:hover {
     border-color: var(--border-strong);

@@ -77,10 +77,16 @@ export function LandingPopulationTrafficExplorer({ municipalities }: Props) {
       </p>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
-        <label className="block flex-1 min-w-[140px]">
-          <span className="text-[11px] font-medium text-[var(--muted)]">Municipio demo</span>
+        <div className="block min-w-[140px] flex-1">
+          <label
+            htmlFor="landing-demo-municipio"
+            className="block text-[12px] font-medium text-[var(--muted)]"
+          >
+            Municipio demo
+          </label>
           <select
-            className="os-select mt-1 w-full text-[13px]"
+            id="landing-demo-municipio"
+            className="os-select mt-1.5 w-full min-h-11 text-[13px]"
             value={idx}
             onChange={(e) => setIdx(Number(e.target.value))}
           >
@@ -90,11 +96,17 @@ export function LandingPopulationTrafficExplorer({ municipalities }: Props) {
               </option>
             ))}
           </select>
-        </label>
-        <label className="block flex-1 min-w-[160px]">
-          <span className="text-[11px] font-medium text-[var(--muted)]">Vertical</span>
+        </div>
+        <div className="block min-w-[160px] flex-1">
+          <label
+            htmlFor="landing-demo-vertical"
+            className="block text-[12px] font-medium text-[var(--muted)]"
+          >
+            Vertical
+          </label>
           <select
-            className="os-select mt-1 w-full text-[13px]"
+            id="landing-demo-vertical"
+            className="os-select mt-1.5 w-full min-h-11 text-[13px]"
             value={businessType}
             onChange={(e) => setBusinessType(e.target.value as BusinessType)}
           >
@@ -103,14 +115,20 @@ export function LandingPopulationTrafficExplorer({ municipalities }: Props) {
             <option value="restaurant">{BUSINESS_LABELS.restaurant}</option>
             <option value="cafe">{BUSINESS_LABELS.cafe}</option>
           </select>
-        </label>
+        </div>
       </div>
 
-      <div className="mt-4 inline-flex rounded-full border border-[var(--border)] bg-[var(--muted-bg)] p-1">
+      <div
+        className="mt-4 inline-flex max-w-full rounded-full border border-[var(--border)] bg-[var(--muted-bg)] p-1"
+        role="tablist"
+        aria-label="Vista población o tráfico"
+      >
         <button
           type="button"
+          role="tab"
+          aria-selected={tab === "population"}
           onClick={() => setTab("population")}
-          className={`rounded-full px-4 py-1.5 text-[12px] font-semibold transition-colors ${
+          className={`min-h-11 min-w-[44px] rounded-full px-4 py-2 text-[12px] font-semibold transition-[color,background-color,box-shadow] ${
             tab === "population"
               ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
               : "text-[var(--muted)] hover:text-[var(--foreground)]"
@@ -120,8 +138,10 @@ export function LandingPopulationTrafficExplorer({ municipalities }: Props) {
         </button>
         <button
           type="button"
+          role="tab"
+          aria-selected={tab === "traffic"}
           onClick={() => setTab("traffic")}
-          className={`rounded-full px-4 py-1.5 text-[12px] font-semibold transition-colors ${
+          className={`min-h-11 min-w-[44px] rounded-full px-4 py-2 text-[12px] font-semibold transition-[color,background-color,box-shadow] ${
             tab === "traffic"
               ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
               : "text-[var(--muted)] hover:text-[var(--foreground)]"

@@ -287,12 +287,13 @@ export function AnalyzeExperience({
             />
           </label>
 
-          <label className="block">
+          <label htmlFor="analyze-business-type" className="block">
             <span className="text-[13px] font-medium text-[var(--foreground)]">
               Tipo de negocio
             </span>
             <select
-              className="os-select mt-2 w-full"
+              id="analyze-business-type"
+              className="os-select mt-2 w-full min-h-11"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value as BusinessType)}
             >

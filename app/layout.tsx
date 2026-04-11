@@ -76,12 +76,14 @@ export const metadata: Metadata = {
     title: "OpenSpot — dónde abrir tu negocio",
     description:
       "Estudios de viabilidad y ubicación en España con datos INE, competencia modelada e informes con IA.",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "OpenSpot" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "OpenSpot — dónde abrir tu negocio",
     description:
       "Datos municipales, mapas de afluencia y scoring para abrir negocio en España.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

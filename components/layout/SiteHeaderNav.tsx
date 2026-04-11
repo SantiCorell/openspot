@@ -473,20 +473,22 @@ export function SiteHeaderNav({ user }: Props) {
                   </button>
                 </form>
               ) : (
-                <Link
-                  href="/login"
-                  className="block rounded-xl px-3 py-2.5 text-[13px] font-semibold hover:bg-[var(--muted-bg)]"
-                  onClick={() => setOpen(false)}
-                >
-                  Entrar
-                </Link>
-                <Link
-                  href="/register"
-                  className="mt-1 block rounded-xl px-3 py-2.5 text-[13px] font-medium text-[var(--muted)] hover:bg-[var(--muted-bg)]"
-                  onClick={() => setOpen(false)}
-                >
-                  Crear cuenta
-                </Link>
+                <>
+                  <Link
+                    href="/login"
+                    className="block rounded-xl px-3 py-2.5 text-[13px] font-semibold hover:bg-[var(--muted-bg)]"
+                    onClick={() => setOpen(false)}
+                  >
+                    Entrar
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="mt-1 block rounded-xl px-3 py-2.5 text-[13px] font-medium text-[var(--muted)] hover:bg-[var(--muted-bg)]"
+                    onClick={() => setOpen(false)}
+                  >
+                    Crear cuenta
+                  </Link>
+                </>
               )}
               <Link
                 href="/analyze"

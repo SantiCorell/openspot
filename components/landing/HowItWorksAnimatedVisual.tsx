@@ -46,7 +46,7 @@ export function HowItWorksAnimatedVisual() {
           const card = (
             <div
               key={s.n}
-              className={`relative flex min-h-0 flex-1 flex-col rounded-2xl border p-5 transition-all duration-500 ease-out sm:p-6 ${
+              className={`relative flex min-h-0 flex-1 flex-col rounded-2xl border p-5 transition-[transform,opacity,box-shadow] duration-500 ease-out sm:p-6 ${
                 isActive
                   ? "scale-[1.01] border-indigo-500/60 bg-gradient-to-br from-indigo-500/[0.08] to-cyan-500/[0.06] shadow-lg shadow-indigo-500/10 ring-2 ring-indigo-500/25 md:scale-[1.02]"
                   : "border-[var(--border)] bg-[var(--muted-bg)]/30 opacity-[0.75]"
@@ -107,7 +107,7 @@ export function HowItWorksAnimatedVisual() {
       </div>
 
       <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6">
-        <div className="flex items-center gap-2" role="tablist" aria-label="Progreso del flujo">
+        <div className="flex items-center gap-1 sm:gap-2" role="tablist" aria-label="Progreso del flujo">
           {STEPS.map((s, i) => (
             <button
               key={s.n}
@@ -116,12 +116,17 @@ export function HowItWorksAnimatedVisual() {
               aria-selected={active === i}
               aria-label={`Paso ${s.n}: ${s.title}`}
               onClick={() => setActive(i)}
-              className={`h-2 rounded-full transition-all duration-500 ease-out ${
-                active === i
-                  ? "w-9 bg-indigo-600 dark:bg-indigo-400"
-                  : "w-2 bg-[var(--border-strong)] hover:bg-[var(--muted)]"
-              }`}
-            />
+              className="flex h-11 min-w-11 items-center justify-center rounded-full p-2 touch-manipulation"
+            >
+              <span
+                className={`block h-2 rounded-full transition-[width,background-color] duration-500 ease-out ${
+                  active === i
+                    ? "w-9 bg-indigo-600 dark:bg-indigo-400"
+                    : "w-2 bg-[var(--border-strong)] hover:bg-[var(--muted)]"
+                }`}
+                aria-hidden
+              />
+            </button>
           ))}
         </div>
         <Link

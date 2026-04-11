@@ -143,14 +143,18 @@ export function TrafficHeatmapPanel({ heatmap, sectorLabel }: Props) {
       </div>
 
       <div>
-        <label className="block text-[12px] font-semibold text-[var(--foreground)]">
+        <label
+          htmlFor="traffic-heatmap-weekday"
+          className="block text-[12px] font-semibold text-[var(--foreground)]"
+        >
           Perfil horario del día seleccionado
         </label>
-        <p className="text-[11px] text-[var(--muted)]">
+        <p className="mt-0.5 text-[12px] text-[var(--muted)]">
           Elige el día para ver barras por hora (útil para plantear apertura, turnos y clases).
         </p>
         <select
-          className="os-select mt-2 w-full max-w-xs text-[13px]"
+          id="traffic-heatmap-weekday"
+          className="os-select mt-2 w-full max-w-xs min-h-11 text-[13px]"
           value={selectedDay}
           onChange={(e) => setSelectedDay(Number(e.target.value))}
         >
