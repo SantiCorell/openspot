@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 
 import { AppProviders } from "@/app/providers";
+import { OpenSpotSupportChat } from "@/components/chat/OpenSpotSupportChat";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
@@ -94,6 +95,7 @@ export default function RootLayout({
           <SiteHeader />
           {children}
           <SiteFooter />
+          <OpenSpotSupportChat />
         </AppProviders>
       </body>
     </html>
