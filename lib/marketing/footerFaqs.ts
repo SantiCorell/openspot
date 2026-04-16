@@ -1,3 +1,5 @@
+import { siteBaseUrl } from "@/lib/seo/siteBaseUrl";
+
 export interface FooterFaq {
   question: string;
   answer: string;
@@ -59,10 +61,7 @@ export function buildOrganizationJsonLd() {
     name: "OpenSpot",
     description:
       "Plataforma de inteligencia de ubicación y viabilidad de negocio para España: INE y padrón oficial más millones de datos propios en bases actualizadas, modelos económicos e informes con IA.",
-    url:
-      process.env.NEXT_PUBLIC_SITE_URL ??
-      process.env.NEXTAUTH_URL ??
-      "https://openspot.es",
+    url: siteBaseUrl(),
     areaServed: {
       "@type": "Country",
       name: "España",

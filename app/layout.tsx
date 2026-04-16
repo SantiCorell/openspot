@@ -20,17 +20,6 @@ const geistSans = Geist({
 
 export const dynamic = "force-dynamic";
 
-function siteUrl(): URL {
-  const u =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  try {
-    return new URL(u);
-  } catch {
-    return new URL("http://localhost:3000");
-  }
-}
-
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#09090b" },

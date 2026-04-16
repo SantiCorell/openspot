@@ -7,6 +7,7 @@ import {
   stripePriceProMonthly,
 } from "@/lib/billing/stripeEnv";
 import { prisma } from "@/lib/prisma";
+import { siteBaseUrl } from "@/lib/seo/siteBaseUrl";
 import { stripe } from "@/lib/stripe";
 import { z } from "zod";
 import { NextResponse } from "next/server";
@@ -25,14 +26,6 @@ const bodySchema = z.discriminatedUnion("kind", [
     quantity: z.number().int().min(1).max(20).optional(),
   }),
 ]);
-
-function siteBaseUrl(): string {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXTAUTH_URL ??
-    "http://localhost:3000";
-  return base.replace(/\/$/, "");
-}
 
 export async function POST(req: Request) {
   const session = await auth();

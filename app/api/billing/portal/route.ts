@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { siteBaseUrl } from "@/lib/seo/siteBaseUrl";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
@@ -33,14 +34,9 @@ export async function POST() {
     );
   }
 
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXTAUTH_URL ??
-    "http://localhost:3000";
-
   const portal = await stripe.billingPortal.sessions.create({
     customer: sub.stripeCustomerId,
-    return_url: `${base.replace(/\/$/, "")}/dashboard/facturacion`,
+    return_url: `${siteBaseUrl()}/dashboard/facturacion`,
   });
 
   return NextResponse.json({ ok: true, url: portal.url });
